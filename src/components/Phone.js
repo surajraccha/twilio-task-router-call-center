@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
-import { Device } from "twilio-client";
-import { Worker } from "twilio-taskrouter";
 import WorkerInfo from "./WorkerInfo";
 import CallControls from "./CallControls";
-import Reservations from "./Reservations";
+import Reservations from "./Reservation";
 
 var API_URL = "http://localhost:5000"
 
@@ -73,7 +71,7 @@ const Phone = () => {
     })
       .then((result) =>
         fetch(
-          API_URL+`/transfer?task_sid=${taskSid}&workspace=${workspaceSid}&workerName=${result.value}`
+          `${API_URL}/transfer?task_sid=${taskSid}&workspace=${workspaceSid}&workerName=${result.value}`
         )
       )
       .then(() => {
@@ -82,7 +80,7 @@ const Phone = () => {
   };
 
   const completeTask = (taskSid) => {
-    fetch(API_URL+`/complete-task?taskSid=${taskSid}`).then(() => {
+    fetch(`${API_URL}/complete-task?taskSid=${taskSid}`).then(() => {
       updateReservations();
     });
   };
@@ -94,10 +92,10 @@ const Phone = () => {
   };
 
   const registerTwilioDevice = (clientId) => {
-    fetch(API_URL+`/get-client-token?clientId=${clientId}`)
+    fetch(`${API_URL}/get-client-token?clientId=${clientId}`)
       .then((response) => response.json())
       .then((response) => {
-        const twilioDevice = new Device(response.token, {
+        const twilioDevice = new Twilio.Device(response.token, {
           codecPreferences: ['opus', 'pcmu'],
           enableRingingState: true,
           sounds: { incoming: "/ring.mp3" },
@@ -129,10 +127,10 @@ const Phone = () => {
   };
 
   const registerWorker = (workerSid) => {
-    fetch(API_URL+'/get-token?workerSid=' + workerSid)
+    fetch(`${API_URL}/get-token?workerSid=` + workerSid)
       .then((response) => response.text())
       .then((token) => {
-        const workerClient = new Worker(token);
+        const workerClient = new Twilio.TaskRouter.Worker(token);
 
         workerClient.on('ready', (workerInfo) => {
           fetchActivities(workerClient);
