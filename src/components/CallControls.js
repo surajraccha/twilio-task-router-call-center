@@ -1,103 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-function CallControls({device, call, setCall, log }) {
-  const [mode, setMode] = useState('mute'); // Default to 'mute' mode
+const CallControls = ({ device }) => {
+  const [connected, setConnected] = useState(false);
 
-  const handleHangup = () => {
-    if (call) {
-      call.disconnect();
-      setCall(null);
-      log('Call disconnected.');
-    }
-  };
+  if (!device) return null;
 
-  const toggleMode = (newMode) => {
-    setMode(newMode);
-  };
-
-  const toggleMute = (flag) => {
-    if (call) {
-      call.mute(flag);
-    }
-  };
-
-  const toggleHold = (flag) => {
+  const handleHangUp = () => {
     if (device) {
-      device.updateOptions({ hold: flag });
+      device.disconnectAll();
+      setConnected(false);
     }
   };
+
+  useEffect(() => {
+    device.on("connect", () => setConnected(true));
+    device.on("disconnect", () => setConnected(false));
+  }, [device]);
 
   return (
-    <div id="call-control" className="call-control center-column">
-      {call ? (
-        <>
-          {mode === 'mute' ? (
-            <>
-              <button
-                id="mute"
-                onClick={() => {
-                  toggleMute(true);
-                  toggleMode('unmute');
-                }}
-                aria-label="mute"
-                style={{
-                  backgroundImage: 'url(/images/icon-mute-off.svg)',
-                }}
-              ></button>
-            </>
-          ) : (
-            <>
-              <button
-                id="unmute"
-                onClick={() => {
-                  toggleMute(false);
-                  toggleMode('mute');
-                }}
-                aria-label="unmute"
-                style={{
-                  backgroundImage: 'url(/images/icon-mute.svg)',
-                }}
-              ></button>
-            </>
-          )}
-          {mode === 'hold' ? (
-            <>
-              <button
-                id="hold"
-                onClick={() => {
-                  toggleHold(true);
-                  toggleMode('unhold');
-                }}
-                aria-label="hold"
-                style={{
-                  backgroundImage: 'url(/images/icon-hold-off.svg)',
-                }}
-              ></button>
-            </>
-          ) : (
-            <>
-              <button
-                id="unhold"
-                onClick={() => {
-                  toggleHold(false);
-                  toggleMode('hold');
-                }}
-                aria-label="unhold"
-                style={{
-                  backgroundImage: 'url(/images/icon-hold.svg)',
-                }}
-              ></button>
-            </>
-          )}
-          <div>
-            <button id="button-hangup-outgoing" onClick={handleHangup}>
-              Hang Up
-            </button>
-          </div>
-        </>
-      ) : null}
+    <div id="call-controls" style={{ display: "block" }} className="mt-3">
+      <h3>Voice Client controls</h3>
+      <button
+        type="button"
+        id="button-answer"
+        className="btn btn-outline-secondary btn-sm"
+        onClick={() => {}}
+        disabled={connected}
+      >
+        Answer Call
+      </button>
+      <button
+        type="button"
+        id="button-hangup"
+        className="btn btn-outline-secondary btn-sm"
+        onClick={handleHangUp}
+        disabled={!connected}
+      >
+        Hang Up
+      </button>
     </div>
   );
-}
+};
 
 export default CallControls;
