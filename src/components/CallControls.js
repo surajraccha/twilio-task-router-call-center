@@ -30,14 +30,14 @@ const CallControls = ({ device }) => {
   return (
     <div id="call-controls" style={{ display: "block" }} className="mt-3">
       <h3>Voice Client controls</h3>
-      <button
+      {/* <button
         type="button"
         id="button-answer"
         className="btn btn-outline-secondary btn-sm"
         disabled={connected}
       >
         Answer Call
-      </button>
+      </button> */}
       <button
         type="button"
         id="button-hangup"
