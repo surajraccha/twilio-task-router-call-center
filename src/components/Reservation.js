@@ -11,7 +11,7 @@ const Reservations = ({
     <div id="reservations" className="mt-3">
       <h3>Reservations</h3>
       <ul className="list-group" id="reservations-group">
-        {reservations.map((reservation) => (
+        {reservations && reservations.map((reservation) => (
           <ReservationItem
             key={reservation.sid}
             reservation={reservation}

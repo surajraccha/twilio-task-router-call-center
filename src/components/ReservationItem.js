@@ -5,12 +5,13 @@ const ReservationItem = ({
   acceptReservation,
   transferCall,
   completeTask,
+  key
 }) => {
   const renderReservationButtons = () => {
-    let result = "";
+    let result = [];
     switch (reservation.reservationStatus) {
       case "pending":
-        result = (
+        result.push(
           <button
             type="button"
             className="btn btn-primary float-right"
@@ -27,7 +28,7 @@ const ReservationItem = ({
     }
     switch (reservation.task.assignmentStatus) {
       case "assigned":
-        result += (
+        result.push(
           <button
             type="button"
             className="btn btn-info float-right ml-2"
@@ -39,7 +40,7 @@ const ReservationItem = ({
           </button>
         );
       case "wrapping":
-        result += (
+        result.push(
           <button
             type="button"
             className="btn btn-info float-right"
@@ -50,19 +51,21 @@ const ReservationItem = ({
         );
         break;
       case "completed":
-        result = "";
+        result = [];
         break;
     }
     return result;
   };
 
   return (
-    <li className="list-group-item">
+    <li key={key} className="list-group-item">
       Reservation SID: {reservation.sid}
       <br />
       Reservation Status: {reservation.reservationStatus}
       <br />
       Task Status: {reservation.task.assignmentStatus}
+      <br />
+      Call From : {reservation.task.attributes.type=="outbound" ? reservation.task.attributes.called :reservation.task.attributes.from}
       <br />
       {renderReservationButtons()}
     </li>

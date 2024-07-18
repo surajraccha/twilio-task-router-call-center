@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { connect } from 'react-redux';
 
 const CallControls = ({ device }) => {
   const [connected, setConnected] = useState(false);
-
-  if (!device) return null;
+  const [connection, setConnection] = useState(null);
 
   const handleHangUp = () => {
     if (device) {
@@ -11,10 +11,20 @@ const CallControls = ({ device }) => {
       setConnected(false);
     }
   };
+  const acceptCall = ()=>{
+    if(connection){
+      connection.accept();
+    }
+  }
 
   useEffect(() => {
-    device.on("connect", () => setConnected(true));
-    device.on("disconnect", () => setConnected(false));
+    if(device){
+        device.on("connect", () => setConnected(true));
+        device.on("disconnect", () => setConnected(false));
+        device.on('incoming', (conn) => {
+          setConnection(conn);
+        });
+    }
   }, [device]);
 
   return (
@@ -24,7 +34,6 @@ const CallControls = ({ device }) => {
         type="button"
         id="button-answer"
         className="btn btn-outline-secondary btn-sm"
-        onClick={() => {}}
         disabled={connected}
       >
         Answer Call
@@ -42,4 +51,8 @@ const CallControls = ({ device }) => {
   );
 };
 
-export default CallControls;
+const mapStateToProps = (state) => ({
+  device: state.worker.device
+});
+
+export default connect(mapStateToProps)(CallControls);

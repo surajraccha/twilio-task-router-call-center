@@ -8,6 +8,10 @@
   }
   
   .phone-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
     flex: 0 1 auto; /* Shrink and grow based on content */
     padding: 10px;
     background-color: #f5f5f5;
@@ -15,21 +19,14 @@
   }
   
   .crm-container {
+    display: flex;
     flex: 1; /* Take up the remaining space */
     padding: 10px;
     background-color: #fff;
-  }
-  
-  /* Additional styling to mimic Twilio Flex */
-  .phone-container {
-    display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.2em;
   }
-  
-  .crm-container {
-    display: flex;
-    flex-direction: column;
+
+  h3,h4,h5 {
+    font-style:italic
   }
-  

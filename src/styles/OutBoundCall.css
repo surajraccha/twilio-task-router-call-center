@@ -1,0 +1,53 @@
+  h4 {
+    margin-bottom: 10px;
+  }
+  
+  .input-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  input[type="number"] {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  button {
+    padding: 10px 15px;
+    margin-left: 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .call-button {
+    background-color: #008CBA;
+    color: white;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  h3,h4,h5 {
+    font-style:italic
+  }
+
+  .message {
+    color: green;
+    margin-top: 10px;
+  }
