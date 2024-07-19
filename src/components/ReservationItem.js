@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const ReservationItem = ({
   reservation,
@@ -7,7 +7,12 @@ const ReservationItem = ({
   completeTask,
   key
 }) => {
+  const [reservationAccepted,setReservationAccepted] = useState(false);
+  const [completeTaskFlag,setCompleteTaskFlag] = useState(false);
+
   const renderReservationButtons = () => {
+
+
     let result = [];
     switch (reservation.reservationStatus) {
       case "pending":
@@ -15,9 +20,15 @@ const ReservationItem = ({
           <button
             type="button"
             className="btn btn-primary float-right"
-            onClick={() => acceptReservation(reservation.sid)}
+            disabled={reservationAccepted}
+            onClick={() => {
+              var result = acceptReservation(reservation.sid);
+              if(result){
+                setReservationAccepted(true);
+              }
+            }}
           >
-            Accept
+            {!reservationAccepted ? "Accept" :"Accepting..."}
           </button>
         );
         break;
@@ -27,24 +38,30 @@ const ReservationItem = ({
         break;
     }
     switch (reservation.task.assignmentStatus) {
-      case "assigned":
-        result.push(
-          <button
-            type="button"
-            className="btn btn-info float-right ml-2"
-            onClick={() =>
-              transferCall(reservation.task.sid, reservation.task.workspaceSid)
-            }
-          >
-            Transfer Call
-          </button>
-        );
+       case "assigned":
+      //   result.push(
+      //     <button
+      //       type="button"
+      //       className="btn btn-info float-right ml-2"
+      //       onClick={() =>
+      //         transferCall(reservation.task.sid, reservation.task.workspaceSid)
+      //       }
+      //     >
+      //       Transfer Call
+      //     </button>
+      //   );
       case "wrapping":
         result.push(
           <button
             type="button"
             className="btn btn-info float-right"
-            onClick={() => completeTask(reservation.task.sid)}
+            disabled={completeTaskFlag}
+            onClick={() =>{
+              var result = completeTask(reservation.task.sid);
+                if(result){
+                  setCompleteTaskFlag(true);
+                }
+            } }
           >
             Complete task
           </button>

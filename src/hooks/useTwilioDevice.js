@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import {setDevice} from '../redux/workerActions';
 import ringTone from '../ring.mp3'; // Adjust the path based on your project structure
 
-const API_URL = "https://twilio-call-center-service-3327.twil.io";
+const API_URL = "https://twilio-call-center-testing-7786.twil.io";
 
 const useTwilioDevice = (clientId) => {
   const dispatch = useDispatch();
@@ -40,9 +40,9 @@ const useTwilioDevice = (clientId) => {
         twilioDevice.on('incoming', (conn) => {
           console.log('Incoming connection from ' + conn.parameters.From);
           conn.accept();
-          document.getElementById('button-answer').onclick = () => {
-            conn.accept();
-          };
+          // document.getElementById('button-answer').onclick = () => {
+          //   conn.accept();
+          // };
         });
 
         // Dispatch actions or set state for the device

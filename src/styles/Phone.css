@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Share+Tech+Mono);
+/* @import url(https://fonts.googleapis.com/css?family=Share+Tech+Mono);
 
 body,
 p {
@@ -49,7 +49,6 @@ main {
   text-align: center;
 }
 
-/* Left Column */
 #client-name {
   text-align: left;
   margin-bottom: 1em;
@@ -64,7 +63,6 @@ select {
   margin-bottom: 10px;
 }
 
-/* Center Column */
 input {
   font-family: Helvetica-LightOblique, Helvetica, sans-serif;
   font-style: oblique;
@@ -88,7 +86,6 @@ div#volume-indicators > div {
   width: 0;
 }
 
-/* Right Column */
 .right-column {
   padding: 0 1.5em;
 }
@@ -111,7 +108,6 @@ div#volume-indicators > div {
   width: 90%;
 }
 
-/* Other Styles */
 .hide {
   position: absolute !important;
   top: -9999px !important;
@@ -121,7 +117,6 @@ div#volume-indicators > div {
 button:disabled {
   cursor: not-allowed;
 }
-    /* Style for the input element */
     #phone-number {
       width: 350px;
       padding: 10px;
@@ -138,7 +133,6 @@ button:disabled {
       outline: none;
     }
 
-    /* Style for the button element */
     #button-call,#startup-button {
       padding: 10px 20px;
       background-color: #4CAF50;
@@ -217,8 +211,13 @@ button:disabled {
     outline: inherit;
     background-position: center center;
     background-repeat: no-repeat;
-}
+} */
 
 h3,h4,h5 {
   font-style:italic
+}
+
+.loader {
+  text-align: center;
+  padding: 20px;
 }

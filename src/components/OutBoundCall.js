@@ -6,7 +6,7 @@ const OutBoundCall = ({workerClient,workerInfo}) => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [message, setMessage] = useState('');
-
+    const [callPlaced,setCallPlaced] = useState(false);
     const [maxLength, setMaxLength] = useState(10);
     if (!workerInfo) return null;
 
@@ -44,7 +44,7 @@ const OutBoundCall = ({workerClient,workerInfo}) => {
 
     function createOutBoundCall(){
         var data = {
-            From:"+13203616375",
+            From:"+14357087363",
             To:phoneNumber,
             workerContactUri:workerInfo.attributes.contact_uri,
             WorkerName:workerInfo.attributes.worker_name,
@@ -53,7 +53,7 @@ const OutBoundCall = ({workerClient,workerInfo}) => {
         
         //console.log('createCall data>>>',JSON.stringify(data));
         
-            var url = "https://twilio-call-center-service-3327.twil.io/outbound-dialing-makeCall";
+            var url = "https://twilio-call-center-testing-7786.twil.io/outbound-dialing-makeCall";
            
             console.log("redirection URL>>>>>",url);
             fetch(url, {
@@ -66,6 +66,7 @@ const OutBoundCall = ({workerClient,workerInfo}) => {
           })
             .then(response => response.json())
             .then((json) => {
+                setCallPlaced(true);
                 setMessage("Call Placed Successfully");
              console.log('=======================',json);
             })

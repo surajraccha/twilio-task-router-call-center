@@ -5,7 +5,7 @@ import { setWorkerClient, setWorkerInfo, setWorkerActivities,setReservations } f
 import Swal from "sweetalert2";
 import useTwilioDevice from './useTwilioDevice';
 
-const API_URL = 'https://twilio-call-center-service-3327.twil.io';
+const API_URL = 'https://twilio-call-center-testing-7786.twil.io';
 
 const useWorker = (workerSid,workerClient,workerActivities,workerInfo) => {
   const dispatch = useDispatch();
@@ -79,7 +79,7 @@ const useWorker = (workerSid,workerClient,workerActivities,workerInfo) => {
   const toggleWorkerAvailability = () => {
     if (workerClient) {
       const newStatus = {
-        ActivitySid: workerClient.available
+        ActivitySid: workerInfo && workerInfo.available
           ? workerActivities.offline
           : workerActivities.available,
       };
@@ -106,9 +106,11 @@ const useWorker = (workerSid,workerClient,workerActivities,workerInfo) => {
             if (reservation.task.attributes.conference) {
               console.log('Joining conference ' + reservation.task.attributes.conference.room_name);
               reservation.conference();
+              return true;
             } else {
               console.log('Accepting reservation...');
               reservation.conference();
+              return true;
             }
           } else {
             console.warn('Reservation not found:', reservationSid);
@@ -125,9 +127,11 @@ const useWorker = (workerSid,workerClient,workerActivities,workerInfo) => {
             if (reservation.task.attributes.conference) {
               console.log('Joining conference ' + reservation.task.attributes.conference.room_name);
               reservation.conference();
+              return true;
             } else {
               console.log('Accepting reservation...');
               reservation.conference();
+              return true;
             }
           } else {
             console.warn('Reservation not found:', reservationSid);
@@ -137,15 +141,18 @@ const useWorker = (workerSid,workerClient,workerActivities,workerInfo) => {
     }else{
       console.warn('Worker client not initialized.');
     }
+    return false;
   };
 
   const completeTask = (taskSid) => {
     fetch(`${API_URL}/complete-task?taskSid=${taskSid}`)
       .then(() => {
         updateReservations(workerClient);
+        return true;
       })
       .catch(error => {
         console.error('Error completing task:', error);
+        return false;
       });
   };
 
