@@ -3,7 +3,8 @@ const initialState = {
     workerInfo: null,
     workerActivities: {},
     reservations: [],
-    device :null
+    device :null,
+    connection : null
   };
   
   const workerReducer = (state = initialState, action) => {
@@ -30,12 +31,18 @@ const initialState = {
           ...state,
           reservations: action.payload,
         };
-        case 'SET_DEVICE':
+      case 'SET_DEVICE':
           console.log("device>>"+action.payload);
           return {
             ...state,
             device: action.payload,
           };
+      case 'SET_CONNECTION':
+            console.log("connection>>"+action.payload);
+            return {
+              ...state,
+              connection: action.payload,
+            };
       default:
         return state;
     }

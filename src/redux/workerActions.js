@@ -22,4 +22,9 @@ export const setWorkerClient = (workerClient) => ({
     type: 'SET_DEVICE',
     payload: device,
   });
+
+  export const setConnection = (connection) => ({
+    type: 'SET_CONNECTION',
+    payload: connection,
+  });
   

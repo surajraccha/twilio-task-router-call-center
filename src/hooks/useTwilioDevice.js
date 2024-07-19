@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import {setDevice} from '../redux/workerActions';
+import {setDevice,setConnection} from '../redux/workerActions';
 import ringTone from '../ring.mp3'; // Adjust the path based on your project structure
 
 const API_URL = "https://twilio-call-center-testing-7786.twil.io";
@@ -15,17 +15,30 @@ const useTwilioDevice = (clientId) => {
         const response = await tokenResponse.json();
 
         const twilioDevice = new window.Twilio.Device(response.token, {
+          edge: 'ashburn',
           codecPreferences: ['opus', 'pcmu'],
-          enableRingingState: true,
-          sounds: { incoming: ringTone },
+          enableRingingState: true
         });
+
+        if(!twilioDevice){
+          alert("Failed to create twilio device!");
+        }
 
         twilioDevice.on('ready', () => {
           dispatch(setDevice(twilioDevice));
           console.log('Twilio.Device Ready!');
         });
 
+        twilioDevice.on('registered', device => {
+          console.log('The device is ready to receive incoming calls.')
+        });
+
+        twilioDevice.audio.setInputDevice('default').then(() => {
+          console.log('Success!');
+        });
+
         twilioDevice.on('error', (error) => {
+          alert('Twilio.Device Error: ' + error.message);
           console.log('Twilio.Device Error: ' + error.message);
         });
 
@@ -37,9 +50,10 @@ const useTwilioDevice = (clientId) => {
           console.log('Call ended.');
         });
 
-        twilioDevice.on('incoming', (conn) => {
-          console.log('Incoming connection from ' + conn.parameters.From);
-          conn.accept();
+        twilioDevice.on('incoming', (call) => {
+          console.log('Incoming connection from ' + call.parameters.From);
+          call.accept();
+          dispatch(setConnection(call));
           // document.getElementById('button-answer').onclick = () => {
           //   conn.accept();
           // };

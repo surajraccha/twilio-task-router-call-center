@@ -130,6 +130,7 @@ const useWorker = (workerSid,workerClient,workerActivities,workerInfo) => {
               return true;
             } else {
               console.log('Accepting reservation...');
+              console.log(reservation);
               reservation.conference();
               return true;
             }
